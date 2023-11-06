@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>IOT Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+</style>
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:100px;">
+        
+      <a class="navbar-brand" href="#"><svg style="margin-right:1rem;"xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
+        <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
+        <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+      </svg>Air Monitoring</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <form action="/getlastfive" method="post">
+              <button class="btn"style="background-color: #423d45; color:white; "type="submit">Records</button>
+            </form>
+            <!-- <a class="nav-link" href="">Records</a> -->
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Previous Data
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <form action="/getlast" method="post">
+                <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last Record</button>
+              </form>
+              <form action="/getlastthree" method="post">
+                <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last 3 Recorded Data</button>
+              </form>
+              
+              <div class="dropdown-divider"></div>
+              <form action="/getlastfive" method="post">
+                <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last 5 Recorded Data</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container" style="border-top: -11px;">
+        <div class="" style="margin-bottom: 75px"> 
+
+        </div>
+
+        <div class="jumbotron">
+          <h1 class=" display-4 ml3" style=" text-align: center; font-weight: 900; font-size: 3.5em; margin-bottom: 50px;">Welcome to the Air Quality Monitoring System</h1>
+          <p class="lead" style="margin-top: 10px;" >This is an Air Quality MOnitoring website designed to find the detailed information of the air indexing.</p>
+          <hr class="my-4">
+          <p>This Website is created by the RVR group and based on the data collected by our hardware created by us only.</p>
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+          </p>
+        </div>
+  <h1 class="container" style="text-align: center; margin: 50px 50px 20px 50px;"><b>Humidity</b></h1>
+
+
+  <p>Humidity is the concentration of water vapour present in the air. Water vapor, the gaseous state of water, is generally invisible to the human eye.[1] Humidity indicates the likelihood for precipitation, dew, or fog to be present.</p>
+
+  <p>Humidity depends on the temperature and pressure of the system of interest. The same amount of water vapor results in higher relative humidity in cool air than warm air.</p>
+ <p>  A related parameter is the dew point. The amount of water vapor needed to achieve saturation increases as the temperature increases. As the temperature of a parcel of air decreases it will eventually reach the saturation point without adding or losing water mass.</p>
+  
+ 
+    
+    <div class =" container row" style="margin-bottom:10px; margin-top:10px;">
+     
+
+    </div>
+   <table>
+     <tr>
+       <th style="text-align: center;">Date, Time (Data Recorded)</th>
+       <th style="text-align: center;">Humidity Reading values</th>
+     </tr>
+        
+    <% for(var i = data.length-1 ; i >= 0 ; i-- ) { %>
+    
+        <% var date="" %>
+      <% for(var j = 0 ; j < 10; j++){%>
+          <% date = date + data[i].created_at[j] %>
+      <% }  %>
+      
+        <% var time="" %>
+        <% for(var j = 11 ; j < 19; j++){%>
+            <% time = time + data[i].created_at[j] %>
+        <% } %>
+    <tr>
+        <td style="text-align: center;"><%= time%> , <%= date %> </td>
+       <td style="text-align: center;"> <%= data[i].field2 %></td>
+    </tr>
+    
+     <% } %>
+ 
+  </table>
+  <br>
+   
+  
+   <br>
+   
+  
+ 
+
+ <div class="container" style="text-align:left;">
+  <form action="/" method = "get">
+    <input class = "btn btn-primary btn-lg" type="submit" value  = "Back to Home Page">
+    </form>
+</div>
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+    <script type="text/javascript">
+      var textWrapper = document.querySelector('.ml3');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    
+    anime.timeline({loop: true})
+      .add({
+        targets: '.ml3 .letter',
+        opacity: [0,1],
+        easing: "easeInOutQuad",
+        duration: 2250,
+        delay: (el, i) => 150 * (i+1)
+      }).add({
+        targets: '.ml3',
+        opacity: 0,
+        duration: 1000,
+        easing: "easeOutExpo",
+        delay: 1000
+      });
+    </script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  </body>
+</html>

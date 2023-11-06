@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AIR QUALITY MONITORING SYSTEM</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type = "text/css">
+
+      .data{
+
+        display:none;
+      }
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  margin-top: 40pt;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+    </style>
+  </head>
+  <body>
+    <div class></div>
+
+
+    <div class="" >
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:100px;">
+        
+        <a class="navbar-brand" href="#"><svg style="margin-right:1rem;"xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
+          <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
+          <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        </svg>Air Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <form action="/getlastfive" method="post">
+                <button class="btn"style="background-color: #423d45; color:white; "type="submit">Records</button>
+              </form>
+              <!-- <a class="nav-link" href="">Records</a> -->
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Previous Data
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <form action="/getlast" method="post">
+                  <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last Record</button>
+                </form>
+                <form action="/getlastthree" method="post">
+                  <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last 3 Recorded Data</button>
+                </form>
+                
+                <div class="dropdown-divider"></div>
+                <form action="/getlastfive" method="post">
+                  <button class="btn"style="background-color: white; color:black; text-align:center; "type="submit">Last 5 Recorded Data</button>
+                </form>
+              </div>
+            </li>
+            
+          </ul>
+
+         
+          <!-- <li class="nav-item" style="margin-right: 10px; color: white;"><i class="far fa-comment-alt"></i>Notifications</li> -->
+          
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+
+      <div class="" style="margin-bottom:100px;"></div>
+
+      <div class="container">
+        <% for(var i=0; i < s.length ; i++){ %> 
+        <div class="alert alert-success" role="alert">
+          <%= s[0] %> 
+        </div>
+        <% } %> 
+      </div>
+      <div class="container">
+        <% for(var i=0; i < msg.length ; i++){ %> 
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ion-icon name="notifications-outline"></ion-icon>  <%= msg[i] %> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        
+        <% } %> 
+      </div>
+
+
+      <div class="row">
+        <div class="column" style ="width: 15%;">
+          <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            <ul>
+              <div style="margin-top: 5px; margin-bottom: 35px;"><a href="https://www.google.com"><h5 class="btn" style="background-color: #111; color:aliceblue;" >Dashboard</h5></a></div>
+              <div style=" padding-left : 15% ; margin-top: 25px; margin-bottom: 35px;">
+                <form action="/getlastfive" method="post">
+                  <button type="submit" class="btn" style="background-color: #111; color: aliceblue;">Tables</button>
+                </form>
+                </div>
+                <div style="padding-left : 15% ; margin-top: 25px; margin-bottom: 35px;">
+                  <form action="/graph" method="post">
+                    <button type="submit" class="btn btn-success" style=" border : none; background-color: #111; color:aliceblue;">Graph</button>
+                  </form>
+                  </div>
+                
+              <hr>
+              
+              <div style="margin-top: 25px; margin-bottom: 35px;"><a href="https://latestapp123.herokuapp.com/about"><h3 class="btn" style="background-color: #111;color:aliceblue;"> Profiles</h3></a></div>
+              <div style="margin-top: 25px; margin-bottom: 35px;"><a href="https://latestapp123.herokuapp.com/compose"><h3 class="btn btn-danger" style="border : none; background-color: #111;color:aliceblue;">F.A.Q</h3></a></div>
+              <div style="margin-top: 25px; margin-bottom: 35px;"><a href="https://riju-tejas-singh.github.io/IOT-contact/"><h3 class="btn " style="background-color: #111;color:aliceblue;">Contact</h3></a></div>
+              
+            </ul>
+            
+          </div>
+          
+        <span style="font-size:60px;cursor:pointer ; padding-left: 10%;" onclick="openNav()">&#9776</span>
+        </div>
+        <div class = "column" style ="  width: 85%;"> 
+          <div class="row">
+              <div class="col-lg-9 col-md-12 col-sm-12" >
+                <div class="jumbotron" >
+                  <h1 class=" display-4 ml3" style=" text-align: center; font-weight: 900; font-size: 3.5em; margin-bottom: 50px;">Welcome to the Air Quality Monitoring System</h1>
+                  <p class="lead" style="margin-top: 10px;" >This is an Air Quality MOnitoring website designed to find the detailed information of the air indexing.</p>
+                  <br>
+                  <p>This Website is created by the RVR group and based on the data collected by our hardware created by us only.</p>
+                  <p class="lead">
+                   
+                  </p>
+                </div>
+              </div>
+
+
+            
+              
+              <div class="col-lg-3 col-md-12 col-sm-12" >
+               
+                
+                <div class="row">
+                  <div style="text-align: left;" id="piechart"></div>
+                </div>
+                
+              </div>
+
+
+          </div>
+          
+
+            
+            
+            <div class="row">
+
+              <div class="col-lg-3 col-sm-12 col-md-6" style="height:500px; ">
+                <div class="card" style="width: 22rem; height:200px;">
+                  <img class="card-img-top"style="height:150px;" src="data:image/jpeg;base64,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" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Humidity</h5>
+                    <p class="card-text">Humidity is the concentration of water vapour present in the air. Humidity depends on the temperature and pressure of the system of interest. The same amount of water vapor results in higher relative humidity in cool air than warm air.</p>
+                    <form action="/humidity" method  = "post">
+                      <label for="fname">Get the latest values from the server</label><br>
+                      <button type="submit" class="btn btn-success">click</button>
+                    </form>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="col-lg-3 col-sm-12 col-md-6" style=" height:500px; ">
+                <div class="card" style= "width: 22rem; height:200px;">
+                  <img class="card-img-top" class="height:250px;" src="https://cdn.mos.cms.futurecdn.net/jqkeHZrc7H2qJGzQkfkgnX.jpg" alt="Card image cap">
+                  <div class="card-body" >
+                    <h5 class="card-title">Temperature </h5>
+                    <p class="card-text">Temperature is a physical quantity that expresses hot and cold. It is the manifestation of thermal energy, present in all matter, which is the source of the occurrence of heat</p>
+                    <form action="/temperature" method  = "post">
+                      <label for="fname">Get the latest values from the server</label><br>
+                      <button type="submit" class="btn btn-success">click</button>
+                    </form>
+                  </div>
+                </div>
+           
+              </div>
+              <div class="col-lg-3 col-sm-12 col-md-6" style=" height:500px;">
+                <div class="card" style="width: 22rem; height:200px;">
+                  <img class="card-img-top" style="height:150px;" src="https://www.poison.org/-/media/images/shared/articles/2007-dec/carbon-monoxide-poisoning-1.jpg">
+                  <div class="card-body">
+                    <h5 class="card-title">Carbon Monoxide</h5>
+                    <p class="card-text">Carbon monoxide (CO) is an odorless, colorless gas formed by the incomplete combustion of fuels. When people are exposed to CO gas, the CO molecules will displace the oxygen in their bodies and lead to poisoning.</p>
+                    <form action="/covalue" method  = "post">
+                      <label for="fname">Get the latest values from the server</label><br>
+                      <button type="submit" class="btn btn-success">click</button>
+                    </form>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <div  class ="col-lg-3 col-sm-12 col-md-6" style="height: 500px">
+                <form action="/" method  = "post">
+                  <label for="fname"><h4>Enter the number of enteries you want</h4></label><br>
+                  <input type="text"  class="form-control"name="values"><br>
+                  <button class="btn btn-lg btn-primary"type="submit" style="margin-top: 10px;">Retrieve</button>
+                </form>
+                <h4 style="margin-top: 25px;">
+                  Here you get the data in the Tabular formatt. You can Enter the last few number of recoreds you want to retrieve your data.
+                </h4>
+              </div>
+                
+              
+            </div>
+<!-- 
+            <br>
+            <div class="row" style="height:200px; margin-top: 40px;"> 
+
+             </div> -->
+            
+            <div class="row"> 
+              
+                <div  class ="col-lg-3 col-sm-12 col-md-6" style="height: 700px; ">
+                  <form action="/graphs" method  = "post">
+                    <label for="fname"><h4>Enter the number of enteries you want</h4></label><br>
+                    <input type="text"  class="form-control"name="values"><br>
+                    <button class="btn btn-lg btn-primary"type="submit" style="margin-top: 10px;">Retrieve</button>
+                  </form>
+                  <h4 style="margin-top: 25px;">
+                    Here you get the data in the pictorial representation. You can Enter the last few number of recoreds you want to retrieve your data.
+                  </h4>
+                </div>
+                
+                <div class="col-lg-3 col-sm-12 col-md-6" style="height:700px; ">
+                  <div class="card" style="width: 22rem; height: 200px;">
+                    <img class="card-img-top" class="height:50px; width:250px;" src="https://thumbs.dreamstime.com/b/old-lpg-gas-tank-rusty-decay-old-lpg-gas-tank-red-rust-decay-causing-gas-leakage-to-be-dangerous-realistic-file-159325663.jpg" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">LPG Gas Level</h5>
+                      <p class="card-text">Which gas is in LPG?
+                        LPG is composed hydrocarbons containing three or four carbon atoms. The normal components of LPG thus, are propane (C3H8) and butane (C4H10). Small concentrations of other hydrocarbons may also be present.</p>
+                      <form action="/lpggas" method  = "post">
+                        <label for="fname">Get the latest values from the server</label><br>
+                        <button type="submit" class="btn btn-success">click</button>
+                      </form>
+                      
+                    </div>
+                  </div>
+             
+                </div>
+
+
+
+                <div class="col-lg-3 col-sm-12 col-md-6" style="height:700px;  ">
+                  <div class="card" style="width: 22rem; height: 200px;">
+                    <img class="card-img-top" class="height:100px; width:250px;" src="https://www.financialexpress.com/wp-content/uploads/2018/12/cats-241.jpg">
+                    <div class="card-body">
+                      <h5 class="card-title">PM 2.5 Level</h5>
+                      <p class="card-text">Fine particulate matter (PM2.5) is an air pollutant that is a concern for people's health when levels in air are high. PM2.5 are tiny particles in the air that reduce visibility and cause the air to appear hazy when levels are elevated.</p>
+                      <form action="/pmvalue" method  = "post">
+                        <label for="fname">Get the latest values from the server</label><br>
+                        <button type="submit" class="btn btn-success">click</button>
+                      </form>
+                    </div>
+                  </div>
+             
+                </div>
+
+                <div class="col-lg-3 col-sm-12 col-md-6" style="height:700px; ">
+                  <a href="https://pbs.twimg.com/media/EVORB5WU8AIWPDE?format=jpg&name=4096x4096">
+                    <img class="card-img-top" class="height:100px; width:250px;" src="https://pbs.twimg.com/media/EVORB5WU8AIWPDE?format=jpg&name=4096x4096">
+                  </a>
+                    
+                  </div>
+             
+                </div>
+
+                
+
+
+
+            </div>
+
+            
+            <br>
+
+            
+
+            
+          </div>
+           
+        </div>
+      </div>
+      <input class  = "data" id = "data1" value  = <%= data[1].field1%>>
+    <input class  = "data" id = "data2" value  = <%= data[1].field2 %>>
+    <input class  = "data" id = "data3" value  = <%= data[1].field3 %>>
+    <input class  = "data" id = "data4" value  = <%= data[1].field4 %>>
+    <input class  = "data" id = "data5" value  = <%= data[1].field5 %>>
+       
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var temp  = document.getElementById("data1").value;
+  var humidity =  document.getElementById("data2").value;
+  var pm2 =  document.getElementById("data3").value;
+  var co =  document.getElementById("data4").value;
+  var lpg  =  document.getElementById("data5").value;
+
+  var da= google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['PM 2.5', parseInt(pm2)],
+  ['CO', parseInt(co)],
+  ['LPG Gas Detection', parseInt(lpg)],
+  ['Fresh Air', 10000],
+
+]);
+
+// console.log(data);
+// console.log(d);
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Air Quality Indexing', 'width':900, 'height':600};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(da, options);
+}
+
+var textWrapper = document.querySelector('.ml3');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+  .add({
+    targets: '.ml3 .letter',
+    opacity: [0,1],
+    easing: "easeInOutQuad",
+    duration: 2250,
+    delay: (el, i) => 150 * (i+1)
+  }).add({
+    targets: '.ml3',
+    opacity: 0,
+    duration: 1000,
+    easing: "easeOutExpo",
+    delay: 1000
+  });
+</script>
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+  
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+  </script>
+
+  </body>
+</html>
